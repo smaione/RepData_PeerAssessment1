@@ -29,7 +29,7 @@ For this part of the assignment, you can ignore the missing values in the datase
 library(lattice)
 
 daily_steps <- split(raw_data, raw_data$date)
-daily_totals <- sapply(daily_steps, function(s) sum(s[, 'steps'], na.rm=TRUE))
+daily_totals <- sapply(daily_steps, function(x) sum(x[, 'steps'], na.rm=TRUE))
 
 bins <- seq(0, 22500, 2500)
 histogram(daily_totals, type='count', col='gray',
@@ -50,7 +50,7 @@ raw_median <- median(daily_totals, na.rm=TRUE)
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 ```{r}
 interval_steps <- split(raw_data, raw_data$interval)
-interval_totals <- sapply(interval_steps, function(s) sum(s[, 'steps'],
+interval_totals <- sapply(interval_steps, function(x) sum(x[, 'steps'],
                                                           na.rm=TRUE))
 num_days <- length(levels(raw_data$date))
 steps_per_interval <- interval_totals / num_days
@@ -64,8 +64,7 @@ xyplot(steps_per_interval ~ intervals, type='l',
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 ```{r}
 max_value <- max(steps_per_interval)
-max_loc <- steps_per_interval == max_value
-max_interval <- as.numeric(names(steps_per_interval[max_loc]))
+max_interval <- intervals[steps_per_interval == max_value]
 ```
 
 
@@ -75,16 +74,23 @@ Note that there are a number of days/intervals where there are missing values (c
 
 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 ```{r}
-num_missing <- sum(!complete.cases(raw_data$steps))
+missing_locs <- !complete.cases(raw_data$steps)
+num_missing <- sum(missing_locs)
+num_missing
 ```
 
 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
-```{r}
 
-```
+Fill missing values with the interval average.
 
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 ```{r}
+complete_data <- raw_data
+
+fill_vals <- steps_per_interval[as.character(complete_data[missing_locs,
+                                                           'interval'])]
+
+complete_data[missing_locs, 'steps'] <- fill_vals
 ```
 
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
