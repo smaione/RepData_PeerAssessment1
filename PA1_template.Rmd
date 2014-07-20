@@ -95,25 +95,31 @@ complete_data[missing_locs, 'steps'] <- fill_vals
 
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 ```{r}
-imputed_daily_steps <- split(imputed_data, imputed_data$date)
-imputed_daily_totals <- sapply(imputed_daily_steps,
-                               function(s) sum(s[, 'steps']))
-imputed_daily_steps
-imputed_daily_totals
-complete_daily_totals
+library(lattice)
+
+complete_daily_steps <- split(complete_data, complete_data$date)
+complete_daily_totals <- sapply(complete_daily_steps,
+                                function(x) sum(x[, 'steps'], na.rm=TRUE))
 
 bins <- seq(0, 22500, 2500)
-
-xyplot(imputed_daily_totals)
-
-histogram(imputed_daily_totals, type='count', col='gray',
-          xlab="Steps", main="Steps Taken Each Day")
+histogram(complete_daily_totals, type='count', col='gray',
+          xlab="Steps", main="Steps Taken Each Day",
           scales=list(x=list(at=bins, labels=bins)),
           breaks=bins)
 
-imputed_mean <- mean(imputed_daily_totals)
-imputed_median <- median(imputed_daily_totals)
+complete_mean <- mean(complete_daily_totals, na.rm=TRUE)
+complete_median <- median(complete_daily_totals, na.rm=TRUE)
 
+mean_diff <- complete_mean - raw_mean
+mean_diff
+
+median_diff <- complete_median - raw_median
+median_diff
+
+raw_discrepancy <- raw_mean - raw_median
+raw_discrepancy
+complete_discrepancy <- complete_mean - complete_median
+complete_discrepancy
 ```
 
 
