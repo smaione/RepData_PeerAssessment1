@@ -1,6 +1,11 @@
-# PA1_template
-Stephen Maione  
-Sunday, July 20, 2014  
+---
+title: "PA1_template"
+author: "Stephen Maione"
+date: "Sunday, July 20, 2014"
+output:
+  html_document:
+    keep_md: yes
+---
 
 
 ## Loading and preprocessing the data
@@ -36,7 +41,7 @@ histogram(daily_totals, type='count', col='gray',
           breaks=bins)
 ```
 
-![plot of chunk unnamed-chunk-3](./PA1_template_files/figure-html/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-3](figures/unnamed-chunk-3.png) 
 
 2. Calculate and report the mean and median total number of steps taken per day
 
@@ -61,7 +66,7 @@ xyplot(steps_per_interval ~ intervals, type='l',
        main="Average Steps Per 5-Minute Daily Interval")
 ```
 
-![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-5.png) 
+![plot of chunk unnamed-chunk-5](figures/unnamed-chunk-5.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -116,7 +121,7 @@ histogram(complete_daily_totals, type='count', col='gray',
           breaks=bins)
 ```
 
-![plot of chunk unnamed-chunk-9](./PA1_template_files/figure-html/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-9](figures/unnamed-chunk-9.png) 
 
 ```r
 complete_mean <- mean(complete_daily_totals, na.rm=TRUE)
@@ -185,5 +190,5 @@ xyplot(steps_per_interval$x ~ steps_per_interval$Group.2 |
        xlab='Intervals', ylab='Average Steps')
 ```
 
-![plot of chunk unnamed-chunk-11](./PA1_template_files/figure-html/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-11](figures/unnamed-chunk-11.png) 
 
