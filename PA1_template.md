@@ -1,6 +1,6 @@
 # PA1_template
 Stephen Maione  
-Thursday, July 17, 2014  
+Sunday, July 20, 2014  
 
 
 ## Loading and preprocessing the data
@@ -51,11 +51,9 @@ raw_median <- median(daily_totals, na.rm=TRUE)
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 ```r
-interval_steps <- split(raw_data, raw_data$interval)
-interval_totals <- sapply(interval_steps, function(x) sum(x[, 'steps'],
-                                                          na.rm=TRUE))
-num_days <- length(levels(raw_data$date))
-steps_per_interval <- interval_totals / num_days
+steps_by_interval <- split(raw_data, raw_data$interval)
+steps_per_interval <- sapply(steps_by_interval,
+                             function(x) mean(x[, 'steps'], na.rm=TRUE))
 
 intervals <- as.numeric(names(steps_per_interval))
 xyplot(steps_per_interval ~ intervals, type='l',
@@ -129,7 +127,7 @@ mean_diff
 ```
 
 ```
-## [1] 1227
+## [1] 1412
 ```
 
 ```r
@@ -138,7 +136,7 @@ median_diff
 ```
 
 ```
-## [1] 0
+## [1] 371.2
 ```
 
 ```r
@@ -156,7 +154,7 @@ complete_discrepancy
 ```
 
 ```
-## [1] 186
+## [1] 0
 ```
 
 
@@ -173,6 +171,19 @@ complete_data$wkday_wkend <- factor(ifelse(substring(days, 1, 1) == 'S',
                                            'weekend', 'weekday'))
 ```
 
-2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was creating using simulated data:
+2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
+```r
+steps_per_interval <- aggregate(complete_data$steps,
+                                by=list(complete_data$wkday_wkend,
+                                        complete_data$interval),
+                                FUN=mean)
+
+xyplot(steps_per_interval$x ~ steps_per_interval$Group.2 |
+           steps_per_interval$Group.1,
+       type='l', layout=c(1, 2),
+       xlab='Intervals', ylab='Average Steps')
+```
+
+![plot of chunk unnamed-chunk-11](./PA1_template_files/figure-html/unnamed-chunk-11.png) 
 
