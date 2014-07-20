@@ -171,8 +171,14 @@ complete_discrepancy</code></pre>
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
 <p>For this part the weekdays() function may be of some help here. Use the dataset with the filled-in missing values for this part.</p>
 <ol style="list-style-type: decimal">
-<li><p>Create a new factor variable in the dataset with two levels - “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.</p></li>
-<li><p>Make a panel plot containing a time series plot (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was creating using simulated data:</p></li>
+<li>Create a new factor variable in the dataset with two levels - “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.</li>
+</ol>
+<pre class="r"><code>days &lt;- weekdays(as.POSIXlt(complete_data$date))
+
+complete_data$wkday_wkend &lt;- factor(ifelse(substring(days, 1, 1) == 'S',
+                                           'weekend', 'weekday'))</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Make a panel plot containing a time series plot (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was creating using simulated data:</li>
 </ol>
 </div>
 

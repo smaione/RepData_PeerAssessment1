@@ -2,7 +2,9 @@
 title: "PA1_template"
 author: "Stephen Maione"
 date: "Thursday, July 17, 2014"
-output: html_document
+output:
+  html_document:
+    keep_md: yes
 ---
 
 
@@ -81,15 +83,13 @@ num_missing
 
 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
-Fill missing values with the interval average.
+I decided to fill missing values with the interval average.
 
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 ```{r}
+fill_vals <- steps_per_interval[as.character(raw_data[missing_locs,
+                                                      'interval'])]
 complete_data <- raw_data
-
-fill_vals <- steps_per_interval[as.character(complete_data[missing_locs,
-                                                           'interval'])]
-
 complete_data[missing_locs, 'steps'] <- fill_vals
 ```
 
@@ -112,7 +112,6 @@ complete_median <- median(complete_daily_totals, na.rm=TRUE)
 
 mean_diff <- complete_mean - raw_mean
 mean_diff
-
 median_diff <- complete_median - raw_median
 median_diff
 
@@ -129,9 +128,14 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 1. Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 ```{r}
+days <- weekdays(as.POSIXlt(complete_data$date))
+
+complete_data$wkday_wkend <- factor(ifelse(substring(days, 1, 1) == 'S',
+                                           'weekend', 'weekday'))
 ```
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was creating using simulated data:
 ```{r}
+
 ```
 
