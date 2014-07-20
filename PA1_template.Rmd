@@ -63,6 +63,9 @@ xyplot(steps_per_interval ~ intervals, type='l',
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 ```{r}
+max_value <- max(steps_per_interval)
+max_loc <- steps_per_interval == max_value
+max_interval <- as.numeric(names(steps_per_interval[max_loc]))
 ```
 
 
@@ -77,6 +80,7 @@ num_missing <- sum(!complete.cases(raw_data$steps))
 
 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 ```{r}
+
 ```
 
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
